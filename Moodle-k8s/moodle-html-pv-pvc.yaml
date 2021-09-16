@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: moodle-html-pv
+  labels:
+    app: moodle-html-data
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 172.31.86.132
+    path: "/home/ec2-user/k8s-data/moodle-html-data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: moodle-html-pvc
+spec:
+  selector:
+    matchLabels:      
+      app: moodle-html-data
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi

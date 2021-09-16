@@ -1,0 +1,49 @@
+---
+# MARIADB DEPLOYMENT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mariadb
+  name: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mariadb
+    spec:
+      volumes:
+      - name: mariadb-vol
+        persistentVolumeClaim:
+          claimName: mariadb-pvc
+      containers:
+      - image: docker.io/bitnami/mariadb:10.5
+        name: mariadb-pod
+        envFrom:
+        - secretRef:
+            name: mariadb-secret
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: "/bitnami/mariadb"
+          name: mariadb-vol
+---
+# MARIADB SERVICE (CLUSTERIP)
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mariadb
+  clusterIP: None
+---
