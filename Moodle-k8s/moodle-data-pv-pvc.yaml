@@ -12,8 +12,8 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 172.31.86.132
-    path: "/home/ec2-user/k8s-data/moodle-data"
+    server: 172.31.21.204
+    path: "/nfs/data/"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
